@@ -20,7 +20,7 @@ public class Main {
         //null in this array list represents seats that cannot be used (RIP seat 5)
         ArrayList<Integer> seatNums = new ArrayList<Integer>();
         for (int i = 1; i < 35; i++){
-            if (i == 5){
+            if (i == 5 || i == 14 || i == 22 || i == 25 || i == 26 || i == 31){
                 seatNums.add(null);
             }
             else{
@@ -36,5 +36,17 @@ public class Main {
         //if someone is at the edge of the row, they cannot be seated next to null
         //if someone is in the middle of a row, either the element before or the element after CANNOT be null
 
+        for (int i = 0; i < seatNums.size(); i++){
+            if (seatNums.get(i) != null){
+                int randomIdx = (int)(Math.random() * seatNums.size());
+                while(randomIdx == i || seatNums.get(randomIdx) == null){
+                    randomIdx = (int)(Math.random() * seatNums.size() + 2);
+                }
+                int temp = seatNums.get(randomIdx);
+                seatNums.set(randomIdx, seatNums.get(i));
+                seatNums.set(i, temp);
+            }
+        }
+        System.out.println(seatNums);
     }
 }
