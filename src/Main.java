@@ -38,13 +38,30 @@ public class Main {
 
         for (int i = 0; i < seatNums.size(); i++){
             if (seatNums.get(i) != null){
-                int randomIdx = (int)(Math.random() * seatNums.size());
-                while(randomIdx == i || seatNums.get(randomIdx) == null){
-                    randomIdx = (int)(Math.random() * seatNums.size() + 2);
+                int randomIdx = (int)(Math.random() * (seatNums.size()));
+                while(randomIdx == i || seatNums.get(randomIdx) == null || seatNums.get(i) == randomIdx + 1){
+                    randomIdx = (int)(Math.random() * seatNums.size());
                 }
                 int temp = seatNums.get(randomIdx);
                 seatNums.set(randomIdx, seatNums.get(i));
                 seatNums.set(i, temp);
+
+                //check for one neighbor HAS TO BE NEWWW
+                if (randomIdx != 0 && randomIdx != seatNums.size() - 1){
+                    if (seatNums.get(randomIdx - 1) != null && seatNums.get(randomIdx + 1) != null){
+                        int prev = seatNums.get(randomIdx - 1);
+                        int next = seatNums.get(randomIdx + 1);
+                        while (prev == seatNums.get(randomIdx) - 1 || next == seatNums.get(randomIdx) + 1){
+                            randomIdx = (int)(Math.random() * (seatNums.size()));
+                            while(randomIdx == i || seatNums.get(randomIdx) == null || seatNums.get(i) == randomIdx + 1){
+                                randomIdx = (int)(Math.random() * seatNums.size());
+                            }
+                            temp = seatNums.get(randomIdx);
+                            seatNums.set(randomIdx, seatNums.get(i));
+                            seatNums.set(i, temp);
+                        }
+                    }
+                }
             }
         }
         System.out.println(seatNums);
