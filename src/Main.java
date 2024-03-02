@@ -9,15 +9,11 @@ public class Main {
 //        Row 5 should be seats 27-30
 //        Row 6 should be seats 31-34
 
-        //null in this 2d array represents empty seats
-        String[][] curr = {{"Artyom", "Haroon", "Veronica", "Tracy", null, "Nafisa", "Dariusz", "Tian Ying", "Shakkib", "Noelle", "Adib", "Jason"},
-                           {"Siyam", "Leandra", null, "Rafael", "Xin", "Farian"},
-                           {"Irsal", "Stanley", "Sharon", null, "Ricky", "Yanbo"},
-                           {null, null},
-                           {"Christian", "Brandon", "Nikita", "Naya"},
-                           {null, "Enamul", "Jack", "Ryan"}};
 
-        //null in this array list represents seats that cannot be used (RIP seat 5)
+        String[] curr = {"Artyom", "Haroon", "Veronica", "Tracy", null, "Nafisa", "Dariusz", "Tian Ying", "Shakkib", "Noelle", "Adib", "Jason", "Siyam", "Leandra", null, "Rafael", "Xin", "Farian",
+                "Irsal", "Stanley", "Sharon", null, "Ricky", "Yanbo", null, null, "Christian", "Brandon", "Nikita", "Naya", null, "Enamul", "Jack", "Ryan"};
+
+        //null in this array list represents seats that cannot be used or empty seats (RIP seat 5)
         ArrayList<Integer> seatNums = new ArrayList<Integer>();
         for (int i = 1; i < 35; i++){
             if (i == 5 || i == 14 || i == 22 || i == 25 || i == 26 || i == 31){
@@ -27,15 +23,6 @@ public class Main {
                 seatNums.add(i);
             }
         }
-        System.out.println(seatNums);
-        //every student must go to a new seat: the element of the list cannot equal its index + 1
-        //every student must have new neighbors: the element before the number cannot be equal to the number - 1 and the
-        //element after cannot be equal to the number + 1
-        //no one can sit at seat 5: no number can be at index 4
-        //everyone must have at least one neighbor:
-        //if someone is at the edge of the row, they cannot be seated next to null
-        //if someone is in the middle of a row, either the element before or the element after CANNOT be null
-
         for (int i = 0; i < seatNums.size(); i++){
             if (seatNums.get(i) != null){
                 int randomIdx = (int)(Math.random() * (seatNums.size()));
@@ -64,6 +51,39 @@ public class Main {
                 }
             }
         }
-        System.out.println(seatNums);
+        ArrayList<String> newSeats = new ArrayList<String>();
+        for (int i = 0; i < seatNums.size(); i++){
+            if (seatNums.get(i) != null) {
+                newSeats.add(curr[seatNums.get(i) - 1]);
+            }
+            else{
+                newSeats.add(null);
+            }
+        }
+        String[] row1 = new String[12];
+        String[] row2 = new String[6];
+        String[] row3 = new String[6];
+        String[] row4 = new String[2];
+        String[] row5 = new String[4];
+        String[] row6 = new String[4];
+
+        for (int i = 0; i < newSeats.size(); i++){
+            if (i < 12) row1[i] = newSeats.get(i);
+            else if (i >= 12 && i < 18) row2[i - 12] = newSeats.get(i);
+            else if (i >=18 && i < 24) row3[i - 18] = newSeats.get(i);
+            else if (i >= 24 && i < 26) row4[i - 24] = newSeats.get(i);
+            else if (i >= 26 && i < 30) row5[i - 26] = newSeats.get(i);
+            else row6[i - 30] = newSeats.get(i);
+        }
+
+        String[][] seatingChart = {row1, row2, row3, row4, row5, row6};
+        int count = 1;
+        for (String[] s: seatingChart){
+            for (String x: s){
+                System.out.print( "[" + count + ". " + x + "] ");
+                count++;
+            }
+            System.out.println();
+        }
     }
 }
